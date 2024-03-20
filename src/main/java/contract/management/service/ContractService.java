@@ -2,11 +2,9 @@ package contract.management.service;
 
 import contract.management.constants.CONTRACT_STATUS;
 import contract.management.controller.dto.SaveContract;
+import contract.management.controller.dto.UpdateContract;
 import contract.management.repository.ContractRepository;
-import contract.management.repository.dto.AddContract;
-import contract.management.repository.dto.AddProductCollateral;
-import contract.management.repository.dto.Collateral;
-import contract.management.repository.dto.ContractInfo;
+import contract.management.repository.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import contract.management.service.utils.MathUtil;
@@ -33,6 +31,7 @@ public class ContractService {
 
         for(Collateral collateral : collaterals){
             if(saveContract.getCollaterals().contains(collateral.getId())){
+                collateral.setSign(true);
                 signCollaterals.add(collateral);
             }
         }
@@ -62,10 +61,32 @@ public class ContractService {
     public ContractInfo findContractInfo(int contractId){
         return contractRepository.findContractInfo(contractId);
     }
-    public float calculateTotalPremium( List<Collateral> collaterals,int period){
+    public void updateContract(UpdateContract updateContract){
+        ContractInfo contractInfo = contractRepository.findContractInfo(updateContract.getContractId());
+        //담보 비교
+        List<Collateral> PreviousCollaterals = contractInfo.getCollaterals();
+        List<Integer> inputCollaterals = updateContract.getCollaterals();
+        List<Collateral> updateProductCollaterals = new ArrayList<>();
+
+        for(Collateral collateral : PreviousCollaterals){
+            int collateralId = collateral.getId();
+            if(inputCollaterals.contains(collateralId) && collateral.isSign()){
+                collateral.setSign(true);
+                updateProductCollaterals.add(collateral);
+            }else if(!inputCollaterals.contains(collateralId) && collateral.isSign()){
+                collateral.setSign(false);
+                updateProductCollaterals.add(collateral);
+            }
+        }
+
+        //계약 기간 변경 계약 상태 변경
+        new ModifyContract(updateContract.getContractId(), updateContract.getPeriod(), updateContract.getStatus(),calculateTotalPremium(updateProductCollaterals, updateContract.getPeriod()));
+        contractRepository.updat();
+    }
+    public float calculateTotalPremium(List<Collateral> collaterals,int period){
         float total = 0;
         for(Collateral collateral : collaterals){
-            total += collateral.getJoinAmount() / collateral.getBaseAmount();
+            total += collateral.isSign() ? collateral.getJoinAmount() / collateral.getBaseAmount() : 0;
         }
         total = period * total;
 

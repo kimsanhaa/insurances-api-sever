@@ -31,7 +31,7 @@
 
     <select id="getCollateralsByProductId" resultType="contract.management.repository.dto.Collateral">
         select
-            id, name, join_amount as joinAmount , base_amount as baseAmount
+            id, name, join_amount as joinAmount , base_amount as baseAmount, is_sign as isSign
         from collateral c
         where product_id  = #{productId}
     </select>
@@ -40,6 +40,7 @@
     <select id="getContractByContractId" resultType="contract.management.repository.dto.Contract">
         SELECT c.id as contractId,
                p.name as productName,
+               p.id as productId,
                c.period as contractPeriod,
                c.start_date as startDate,
                c.end_date as endDate,

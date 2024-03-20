@@ -13,5 +13,4 @@ public interface ContractRepository {
     List<Collateral> findCollaterals(int productId);
     void addProductCollateral(List<AddProductCollateral> addProductCollaterals);
     ContractInfo findContractInfo(int contractId);
-
 }

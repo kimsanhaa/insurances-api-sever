@@ -3,6 +3,7 @@ package contract.management.repository.dto;
 public class Collateral {
     private int id;
     private String name;
+    private boolean isSign;
     private float joinAmount;
     private float baseAmount;
 
@@ -14,6 +15,10 @@ public class Collateral {
         return name;
     }
 
+    public boolean isSign() {
+        return isSign;
+    }
+
     public float getJoinAmount() {
         return joinAmount;
     }
@@ -22,13 +27,7 @@ public class Collateral {
         return baseAmount;
     }
 
-    @Override
-    public String toString() {
-        return "Collateral{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", joinAmount=" + joinAmount +
-                ", baseAmount=" + baseAmount +
-                '}';
+    public void setSign(boolean sign) {
+        isSign = sign;
     }
 }

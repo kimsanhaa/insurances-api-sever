@@ -17,7 +17,6 @@ public class ContractController {
 
     @PostMapping("/contracts")
     public ResponseEntity<Object> save(@RequestBody SaveContract contract){
-        log.info("contract ={}",contract);
         contractService.saveContract(contract);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -25,7 +24,7 @@ public class ContractController {
     @GetMapping("/contracts/{contractId}")
     public ResponseEntity<Object> find(@PathVariable int contractId){
         ContractInfo contractInfo = contractService.findContractInfo(contractId);
-        log.info("contractInfo ={}",contractInfo);
         return new ResponseEntity<Object>(contractInfo,HttpStatus.OK);
     }
+
 }
