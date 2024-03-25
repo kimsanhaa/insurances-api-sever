@@ -1,6 +1,6 @@
 package insurance.management.mapper;
 
-import contract.management.repository.dto.*;
+
 import insurance.management.repository.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 

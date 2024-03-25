@@ -64,7 +64,7 @@
         where c.id  = #{contractId} AND pc.is_sign  = true;
     </select>
 
-    <update id="updateContract">
+    <update id="updateInsurance">
         UPDATE contract
         SET product_id = #{productId},
             status = 1,

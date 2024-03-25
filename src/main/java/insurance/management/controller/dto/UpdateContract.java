@@ -1,13 +1,10 @@
 package insurance.management.controller.dto;
 
+import insurance.management.constants.CONTRACT_STATUS;
 import lombok.Getter;
-
-import java.util.List;
 
 @Getter
 public class UpdateContract {
-    private int contractId;
-    private List<Integer> collaterals;
-    private int period;
-    private int status;
+    private Boolean isUpdate;
+    private CONTRACT_STATUS status;
 }

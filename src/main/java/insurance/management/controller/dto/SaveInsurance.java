@@ -2,7 +2,7 @@ package insurance.management.controller.dto;
 
 import java.util.List;
 
-public class SaveContract {
+public class SaveInsurance {
     private int productId;
     private int period;
     private List<Integer> collaterals;
