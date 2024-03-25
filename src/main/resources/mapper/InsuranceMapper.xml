@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="insurance.management.mapper.InsuranceMapper">
+
+    <insert id="addContract"  useGeneratedKeys="true" keyProperty="contractId" keyColumn="id">
+        INSERT INTO contract
+        (product_id, status, start_date, end_date, period, total_premium)
+        VALUES(#{productId},
+               #{status},
+               #{contractStartDate},
+               #{contractEndDate},
+               #{period},
+               #{totalPremium}
+       );
+    </insert>
+    <insert id="addProductCollateral">
+        INSERT INTO product_collaterial
+            (product_id, contract_id, collateral_id, is_sign)
+        VALUES(#{productId},
+               #{contractId},
+               #{collateralId},
+               #{isSign}
+            );
+    </insert>
+
+    <select id="getProductByProductId" resultType="insurance.management.repository.dto.Product">
+        SELECT id, name, period
+        FROM product p
+        where id = #{productId}
+    </select>
+
+    <select id="getCollateralsByProductId" resultType="insurance.management.repository.dto.Collateral">
+        select
+            id, name, join_amount as joinAmount , base_amount as baseAmount, is_sign as isSign
+        from collateral c
+        where product_id  = #{productId}
+    </select>
+
+
+    <select id="getContractByContractId" resultType="insurance.management.repository.dto.Contract">
+        SELECT c.id as contractId,
+               p.name as productName,
+               p.id as productId,
+               c.period as contractPeriod,
+               c.start_date as startDate,
+               c.end_date as endDate,
+               c.total_premium as totalPremium,
+               c.status
+
+        FROM contract c
+                 LEFT JOIN product p ON p.id  = c.product_id
+        WHERE c.id = #{contractId};
+    </select>
+
+    <select id="getSignCollateralsByContractId" resultType="insurance.management.repository.dto.Collateral">
+        select
+            c2.id,
+            c2.name,
+            c2.join_amount as joinAmount,
+            c2.base_amount as baseAmount
+        from contract c
+                 LEFT join product_collaterial pc on pc.contract_id  = c.id
+                 LEFT join collateral c2 on c2.id  =pc.collateral_id
+        where c.id  = #{contractId} AND pc.is_sign  = true;
+    </select>
+
+    <update id="updateContract">
+        UPDATE contract
+        SET product_id = #{productId},
+            status = 1,
+            start_date='',
+            end_date='',
+            period=0,
+            total_premium=0
+        WHERE id=0;
+
+    </update>
+</mapper>
+
+
