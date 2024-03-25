@@ -1,6 +1,7 @@
 package insurance.management.service;
 
 import insurance.management.constants.CONTRACT_STATUS;
+import insurance.management.controller.dto.ExpectedInsurance;
 import insurance.management.controller.dto.SaveInsurance;
 import insurance.management.controller.dto.UpdateInsurance;
 import insurance.management.repository.InsuranceRepository;
@@ -99,6 +100,17 @@ public class InsuranceService {
                 updateProductCollaterals.add(collateral);
             }
         }
+    }
+    public float expected(ExpectedInsurance expectedInsurance) {
+        List<Collateral> collaterals = insuranceRepository.findCollaterals(expectedInsurance.getProductId());
+        List<Collateral> signCollaterals = new ArrayList<>();
+
+        for (Collateral collateral : collaterals) {
+            if (expectedInsurance.getCollaterals().contains(collateral.getId())) {
+                signCollaterals.add(collateral);
+            }
+        }
+        return calculateTotalPremium(signCollaterals, expectedInsurance.getPeriod());
     }
 
     public float calculateTotalPremium(List<Collateral> collaterals,int period){

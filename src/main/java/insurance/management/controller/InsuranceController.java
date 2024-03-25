@@ -34,8 +34,7 @@ public class InsuranceController {
     }
     @GetMapping("/insurance/quote")
     public ResponseEntity<Object> expectedQuote(@RequestBody ExpectedInsurance expectedInsurance){
-        insuranceService.expected(expectedInsurance);
-        return new ResponseEntity<Object>(HttpStatus.OK);
+        float expected = insuranceService.expected(expectedInsurance);
+        return new ResponseEntity<Object>(expected,HttpStatus.OK);
     }
-
 }
