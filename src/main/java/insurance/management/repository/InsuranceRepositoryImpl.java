@@ -1,8 +1,8 @@
 package insurance.management.repository;
 
 import insurance.management.mapper.InsuranceMapper;
-import contract.management.repository.dto.*;
 import insurance.management.repository.dto.*;
+import insurance.management.service.dto.UpdateProductCollateral;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -34,7 +34,16 @@ public class InsuranceRepositoryImpl implements InsuranceRepository {
         List<Collateral> signCollaterals = insuranceMapper.getSignCollateralsByContractId(contractId);
         return new ContractInfo(contract,signCollaterals);
     }
-    public void updateContract(){
+
+    @Override
+    public void updateProductCollaterals(List<UpdateProductCollateral> updateProductCollaterals) {
+        for(UpdateProductCollateral upc : updateProductCollaterals){
+            insuranceMapper.updateProductCollateral(upc);
+        }
+    }
+
+    @Override
+    public void updateContract(ModifyContract modifyContract) {
 
     }
 }

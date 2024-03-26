@@ -22,19 +22,19 @@ public class InsuranceController {
         insuranceService.saveContract(contract);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @GetMapping("/contracts/{contractId}")
-    public ResponseEntity<Object> find(@PathVariable int contractId){
-        ContractInfo contractInfo = insuranceService.findContractInfo(contractId);
-        return new ResponseEntity<Object>(contractInfo,HttpStatus.OK);
-    }
-    @PatchMapping("/contracts/{contractId}")
-    public ResponseEntity<Object> update(@RequestBody UpdateInsurance updateInsurance){
-        insuranceService.updateInsurance(updateInsurance);
-        return new ResponseEntity<Object>(HttpStatus.OK);
-    }
-    @GetMapping("/insurance/quote")
-    public ResponseEntity<Object> expectedQuote(@RequestBody ExpectedInsurance expectedInsurance){
-        float expected = insuranceService.expected(expectedInsurance);
-        return new ResponseEntity<Object>(expected,HttpStatus.OK);
-    }
+//    @GetMapping("/contracts/{contractId}")
+//    public ResponseEntity<Object> find(@PathVariable int contractId){
+//        ContractInfo contractInfo = insuranceService.findContractInfo(contractId);
+//        return new ResponseEntity<Object>(contractInfo,HttpStatus.OK);
+//    }
+//    @PatchMapping("/contracts/{contractId}")
+//    public ResponseEntity<Object> update(@RequestBody UpdateInsurance updateInsurance){
+//        insuranceService.updateInsurance(updateInsurance);
+//        return new ResponseEntity<Object>(HttpStatus.OK);
+//    }
+//    @GetMapping("/insurance/quote")
+//    public ResponseEntity<Object> expectedQuote(@RequestBody ExpectedInsurance expectedInsurance){
+//        float expected = insuranceService.expected(expectedInsurance);
+//        return new ResponseEntity<Object>(expected,HttpStatus.OK);
+//    }
 }

@@ -7,4 +7,5 @@ import lombok.Getter;
 public class UpdateContract {
     private Boolean isUpdate;
     private CONTRACT_STATUS status;
+    private int contractId;
 }

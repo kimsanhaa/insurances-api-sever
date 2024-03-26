@@ -2,12 +2,11 @@ package insurance.management.controller.dto;
 
 import lombok.Getter;
 
-import java.util.List;
-
 @Getter
 public class UpdateInsurance {
+    private int productId;
     private int contractId;
-    private UpdateCollaterial collaterial;
+    private UpdateCollaterial collateral;
     private UpdatePeriod period;
     private UpdateContract contract;
 }

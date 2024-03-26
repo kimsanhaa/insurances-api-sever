@@ -2,6 +2,7 @@ package insurance.management.mapper;
 
 
 import insurance.management.repository.dto.*;
+import insurance.management.service.dto.UpdateProductCollateral;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -15,5 +16,5 @@ public interface InsuranceMapper {
     Contract getContractByContractId(int contractId);
     List<Collateral> getSignCollateralsByContractId(int contractId);
     int updateContract(ModifyContract modifyContract);
-    int updateProductCollateral(Collateral collateral);
+    int updateProductCollateral(UpdateProductCollateral collateral);
 }

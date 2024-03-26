@@ -1,5 +1,7 @@
 package insurance.management.repository.dto;
 
+import insurance.management.constants.CONTRACT_STATUS;
+import insurance.management.controller.dto.SaveInsurance;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +9,7 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class AddContract {
     private int contractId;
     private int productId;
@@ -27,10 +29,15 @@ public class AddContract {
         return contractId;
     }
 
-    /**
-     * 1. useGeneratedKeys="true"
-     * 2. keyProperty="변수명"
-     * 3. keyColumn="Sql컬럼명"
-     * 출처: https://msource.tistory.com/218 [MLog:티스토리]
-     */
+    public static AddContract of(SaveInsurance saveInsurance,int status, String startDate,String endDate,float totalPremium){
+        return  AddContract.builder()
+                .productId(saveInsurance.getProductId())
+                .status(status)
+                .contractStartDate(startDate)
+                .contractEndDate(endDate)
+                .period(saveInsurance.getPeriod())
+                .totalPremium(totalPremium)
+                .collaterals(saveInsurance.getCollaterals())
+                .build();
+    }
 }

@@ -1,9 +1,7 @@
 package insurance.management.repository;
 
-import insurance.management.repository.dto.AddContract;
-import insurance.management.repository.dto.AddProductCollateral;
-import insurance.management.repository.dto.Collateral;
-import insurance.management.repository.dto.ContractInfo;
+import insurance.management.repository.dto.*;
+import insurance.management.service.dto.UpdateProductCollateral;
 
 import java.util.List;
 
@@ -13,4 +11,6 @@ public interface InsuranceRepository {
     List<Collateral> findCollaterals(int productId);
     void addProductCollateral(List<AddProductCollateral> addProductCollaterals);
     ContractInfo findContractInfo(int contractId);
+    void updateProductCollaterals(List<UpdateProductCollateral> updateProductCollaterals);
+    void updateContract(ModifyContract modifyContract);
 }
