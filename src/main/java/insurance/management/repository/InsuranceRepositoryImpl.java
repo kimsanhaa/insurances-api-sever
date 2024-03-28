@@ -46,4 +46,23 @@ public class InsuranceRepositoryImpl implements InsuranceRepository {
     public void updateContract(ModifyContract modifyContract) {
 
     }
+
+    @Override
+    public int deleteProductCollateral(int contractId) {
+        return insuranceMapper.deleteProductCollateralByContractId(contractId);
+    }
+
+    @Override
+    public int updateTotalPremium(float totalPremium, int contractId) {
+        return insuranceMapper.updateTotalPremiumByContractId(totalPremium,contractId);
+    }
+    @Override
+    public int updateTotalPremiumAndPeriod(float totalPremium, int period, int contractId) {
+        return insuranceMapper.updateTotalPremiumAndPeriodByContractId(totalPremium,period,contractId);
+    }
+
+    @Override
+    public int updateContractStatus(int status, int contractId) {
+        return insuranceMapper.updateContractStatusByContractId(status,contractId);
+    }
 }

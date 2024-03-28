@@ -60,7 +60,7 @@
         from contract c
                  LEFT join product_collaterial pc on pc.contract_id  = c.id
                  LEFT join collateral c2 on c2.id  =pc.collateral_id
-        where c.id  = #{contractId} AND pc.is_sign  = true;
+        where c.id  = #{contractId}
     </select>
 
     <update id="updateContract">
@@ -71,6 +71,29 @@
         UPDATE product_collaterial
         SET is_sign #{isSign}
         WHERE product_id = #{productId} AND contract_id = #{contractId} AND collateral_id = #{collateralId}
+    </update>
+
+    <delete id="deleteProductCollateralByContractId">
+        DELETE FROM product_collaterial
+        WHERE contract_id  = #{contractId};
+    </delete>
+
+    <update id="updateTotalPremiumByContractId">
+        UPDATE contract
+        SET total_premium = #{totalPremium}
+        WHERE id = #{contractId}
+    </update>
+
+    <update id="updateTotalPremiumAndPeriodByContractId">
+        UPDATE contract
+        SET total_premium = #{totalPremium},
+            period = #{period}
+        WHERE id = #{contractId}
+    </update>
+    <update id="updateContractStatusByContractId">
+        UPDATE contract
+        SET status = #{status}
+        WHERE id = #{contractId}
     </update>
 </mapper>
 

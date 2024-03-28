@@ -7,5 +7,5 @@ import java.util.List;
 @Getter
 public class UpdateCollaterial {
     private Boolean isUpdate;
-    private List<Integer> collaterals;
+    private List<Integer> collateralIds;
 }

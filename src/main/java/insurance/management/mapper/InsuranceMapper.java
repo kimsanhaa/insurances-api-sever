@@ -17,4 +17,8 @@ public interface InsuranceMapper {
     List<Collateral> getSignCollateralsByContractId(int contractId);
     int updateContract(ModifyContract modifyContract);
     int updateProductCollateral(UpdateProductCollateral collateral);
+    int deleteProductCollateralByContractId(int contractId);
+    int updateTotalPremiumByContractId(float totalPremium, int contractId);
+    int updateTotalPremiumAndPeriodByContractId(float totalPremium, int period,int contractId);
+    int updateContractStatusByContractId(int status, int contractId);
 }

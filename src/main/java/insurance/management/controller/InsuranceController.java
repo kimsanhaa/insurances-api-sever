@@ -1,6 +1,5 @@
 package insurance.management.controller;
 
-import insurance.management.controller.dto.ExpectedInsurance;
 import insurance.management.controller.dto.SaveInsurance;
 import insurance.management.controller.dto.UpdateInsurance;
 import insurance.management.repository.dto.ContractInfo;
@@ -19,19 +18,19 @@ public class InsuranceController {
 
     @PostMapping("/contracts")
     public ResponseEntity<Object> save(@RequestBody SaveInsurance contract){
-        insuranceService.saveContract(contract);
+        insuranceService.saveInsurance(contract);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-//    @GetMapping("/contracts/{contractId}")
-//    public ResponseEntity<Object> find(@PathVariable int contractId){
-//        ContractInfo contractInfo = insuranceService.findContractInfo(contractId);
-//        return new ResponseEntity<Object>(contractInfo,HttpStatus.OK);
-//    }
-//    @PatchMapping("/contracts/{contractId}")
-//    public ResponseEntity<Object> update(@RequestBody UpdateInsurance updateInsurance){
-//        insuranceService.updateInsurance(updateInsurance);
-//        return new ResponseEntity<Object>(HttpStatus.OK);
-//    }
+    @GetMapping("/contracts/{contractId}")
+    public ResponseEntity<Object> find(@PathVariable int contractId){
+        ContractInfo contractInfo = insuranceService.findContractInfo(contractId);
+        return new ResponseEntity<Object>(contractInfo,HttpStatus.OK);
+    }
+    @PatchMapping("/contracts/{contractId}")
+    public ResponseEntity<Object> update(@RequestBody UpdateInsurance updateInsurance){
+        insuranceService.updateInsurance(updateInsurance);
+        return new ResponseEntity<Object>(HttpStatus.OK);
+    }
 //    @GetMapping("/insurance/quote")
 //    public ResponseEntity<Object> expectedQuote(@RequestBody ExpectedInsurance expectedInsurance){
 //        float expected = insuranceService.expected(expectedInsurance);

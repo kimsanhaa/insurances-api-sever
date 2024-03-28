@@ -14,4 +14,5 @@ public class Contract{
     private String endDate;
     private float totalPremium;
     private int status;
+    private int period;
 }
