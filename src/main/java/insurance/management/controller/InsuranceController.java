@@ -1,5 +1,6 @@
 package insurance.management.controller;
 
+import insurance.management.controller.dto.ExpectedInsurance;
 import insurance.management.controller.dto.SaveInsurance;
 import insurance.management.controller.dto.UpdateInsurance;
 import insurance.management.repository.dto.ContractInfo;
@@ -31,9 +32,9 @@ public class InsuranceController {
         insuranceService.updateInsurance(updateInsurance);
         return new ResponseEntity<Object>(HttpStatus.OK);
     }
-//    @GetMapping("/insurance/quote")
-//    public ResponseEntity<Object> expectedQuote(@RequestBody ExpectedInsurance expectedInsurance){
-//        float expected = insuranceService.expected(expectedInsurance);
-//        return new ResponseEntity<Object>(expected,HttpStatus.OK);
-//    }
+    @GetMapping("/insurance/quote")
+    public ResponseEntity<Object> expectedQuote(@RequestBody ExpectedInsurance expectedInsurance){
+        float expected = insuranceService.expected(expectedInsurance);
+        return new ResponseEntity<Object>(expected,HttpStatus.OK);
+    }
 }
