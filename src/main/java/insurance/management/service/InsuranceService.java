@@ -1,5 +1,6 @@
 package insurance.management.service;
 
+import insurance.management.config.exception.BusinessException;
 import insurance.management.constants.CONTRACT_STATUS;
 import insurance.management.controller.dto.ExpectedInsurance;
 import insurance.management.controller.dto.SaveInsurance;
@@ -28,7 +29,7 @@ public class InsuranceService {
     public int saveInsurance(SaveInsurance saveInsurance){
         Product product = insuranceRepository.findProduct(saveInsurance.getProductId());
         if(product.getPeriod()<saveInsurance.getPeriod()){
-            throw new RuntimeException("period 범위를 벗어났습니다.");
+            throw new BusinessException("period 범위를 벗어났습니다.");
         }
         List<SignCollateral> signCollaterals = getSignCollaterals(saveInsurance.getCollaterals(),saveInsurance.getProductId());
 
@@ -54,7 +55,7 @@ public class InsuranceService {
     public void updateInsurance(UpdateInsurance updateInsurance){
         ContractInfo contractInfo = insuranceRepository.findContractInfo(updateInsurance.getContractId());
         if(contractInfo.getContract().getStatus() == CONTRACT_STATUS.PERIOD_EXPIRED){
-            throw new RuntimeException("기간만료된 보험입니다.");
+            throw new BusinessException("기간만료된 보험입니다.");
         }
 
         if(updateInsurance.getCollateral() != null && updateInsurance.getCollateral().getIsUpdate()){
