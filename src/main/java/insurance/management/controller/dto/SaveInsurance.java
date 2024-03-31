@@ -27,4 +27,13 @@ public class SaveInsurance {
                 ", collaterals=" + collaterals +
                 '}';
     }
+
+    public SaveInsurance(int productId, int period, List<Integer> collaterals) {
+        this.productId = productId;
+        this.period = period;
+        this.collaterals = collaterals;
+    }
+
+    public SaveInsurance() {
+    }
 }

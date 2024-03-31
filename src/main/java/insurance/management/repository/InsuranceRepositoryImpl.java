@@ -65,4 +65,9 @@ public class InsuranceRepositoryImpl implements InsuranceRepository {
     public int updateContractStatus(int status, int contractId) {
         return insuranceMapper.updateContractStatusByContractId(status,contractId);
     }
+
+    @Override
+    public Product findProduct(int productId) {
+        return insuranceMapper.getProductByProductId(productId);
+    }
 }

@@ -24,7 +24,12 @@ import static insurance.management.service.utils.DateUtil.getNowDate;
 public class InsuranceService {
     private final InsuranceRepository insuranceRepository;
 
-    public void saveInsurance(SaveInsurance saveInsurance){
+    public int saveInsurance(SaveInsurance saveInsurance){
+        //계약기간 확인하고 exception
+        Product product = insuranceRepository.findProduct(saveInsurance.getProductId());
+        if(product.getPeriod()<saveInsurance.getPeriod()){
+            throw new RuntimeException("period 범위를 벗어났습니다.");
+        }
         List<SignCollateral> signCollaterals = getSignCollaterals(saveInsurance.getCollaterals(),saveInsurance.getProductId());
 
         float totalPremium = calculateTotalPremium(signCollaterals, saveInsurance.getPeriod());
@@ -32,6 +37,7 @@ public class InsuranceService {
 
         int contractId = ac.getContractId();
         saveProductCollateral(signCollaterals,saveInsurance.getProductId(),contractId);
+        return contractId;
     }
 
     private AddContract saveContract(SaveInsurance saveInsurance, float totalPremium, int period) {
@@ -46,14 +52,13 @@ public class InsuranceService {
         return insuranceRepository.findContractInfo(contractId);
     }
     public void updateInsurance(UpdateInsurance updateInsurance){
-        //  todo history 등록 service 추가
         ContractInfo contractInfo = insuranceRepository.findContractInfo(updateInsurance.getContractId());
         if(updateInsurance.getCollateral().getIsUpdate()){
             updateCollateral(
                     updateInsurance.getCollateral().getCollateralIds(),
                     updateInsurance.getProductId(),
                     updateInsurance.getContractId(),
-                    contractInfo.getContract().getPeriod());
+                    contractInfo.getContract().getContractPeriod());
         }
         if(updateInsurance.getPeriod().getIsUpdate()){
             updatePeriod(
@@ -95,7 +100,7 @@ public class InsuranceService {
         return calculateTotalPremium(signCollaterals,expectedInsurance.getPeriod());
     }
 
-    public float calculateTotalPremium(List<SignCollateral> scs,int period){
+    public float calculateTotalPremium(List<SignCollateral> scs, int period){
         float total = 0;
         for(SignCollateral sc : scs){
             total += sc.getJoinAmount() / sc.getBaseAmount();
@@ -105,15 +110,16 @@ public class InsuranceService {
         total = MathUtil.round(total,2);
         return total;
     }
+
     private List<SignCollateral> getSignCollaterals(List<Integer> collateralIds, int productId) {
         List<Collateral> collaterals = insuranceRepository.findCollaterals(productId);
         List<SignCollateral> signCollaterals = collaterals.stream()
-                .filter(collateral -> collateralIds.contains(collateral))
+                .filter(collateral -> collateralIds.contains(collateral.getId()))
                 .map(SignCollateral::of).
                 collect(Collectors.toList());
         return signCollaterals;
     }
-    private void saveProductCollateral( List<SignCollateral> signCollaterals,int productId,int contractId) {
+    private void saveProductCollateral(List<SignCollateral> signCollaterals,int productId,int contractId) {
         List<AddProductCollateral> pc = signCollaterals.stream()
                 .map(sc -> new AddProductCollateral(productId, contractId, sc.getId()))
                 .collect(Collectors.toList());
