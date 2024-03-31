@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import insurance.management.service.utils.MathUtil;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,6 @@ public class InsuranceService {
     private final InsuranceRepository insuranceRepository;
 
     public int saveInsurance(SaveInsurance saveInsurance){
-        //계약기간 확인하고 exception
         Product product = insuranceRepository.findProduct(saveInsurance.getProductId());
         if(product.getPeriod()<saveInsurance.getPeriod()){
             throw new RuntimeException("period 범위를 벗어났습니다.");
@@ -53,22 +53,26 @@ public class InsuranceService {
     }
     public void updateInsurance(UpdateInsurance updateInsurance){
         ContractInfo contractInfo = insuranceRepository.findContractInfo(updateInsurance.getContractId());
-        if(updateInsurance.getCollateral().getIsUpdate()){
+        if(contractInfo.getContract().getStatus() == CONTRACT_STATUS.PERIOD_EXPIRED){
+            throw new RuntimeException("기간만료된 보험입니다.");
+        }
+
+        if(updateInsurance.getCollateral() != null && updateInsurance.getCollateral().getIsUpdate()){
             updateCollateral(
                     updateInsurance.getCollateral().getCollateralIds(),
                     updateInsurance.getProductId(),
                     updateInsurance.getContractId(),
                     contractInfo.getContract().getContractPeriod());
         }
-        if(updateInsurance.getPeriod().getIsUpdate()){
+        if(updateInsurance.getPeriod() != null && updateInsurance.getPeriod().getIsUpdate()){
             updatePeriod(
-                    updateInsurance.getCollateral().getCollateralIds(),
+                    getCollateralIds(contractInfo.getCollaterals()),
                     updateInsurance.getProductId(),
                     updateInsurance.getContractId(),
                     updateInsurance.getPeriod().getPeriod());
         }
-        if(updateInsurance.getContract().getIsUpdate()){
-            updateContract(contractInfo.getContract().getStatus(),updateInsurance.getContract().getStatus(),updateInsurance.getContractId());
+        if(updateInsurance.getContract() != null && updateInsurance.getContract().getIsUpdate()){
+            updateContract(updateInsurance.getContract().getStatus(),updateInsurance.getContractId());
         }
     }
     @Transactional
@@ -87,10 +91,7 @@ public class InsuranceService {
         float totalPremium = calculateTotalPremium(signCollaterals, period);
         insuranceRepository.updateTotalPremiumAndPeriod(totalPremium,period,contractId);
     }
-    private void updateContract(int previousStatus, int newStatus, int contractId){
-        if(previousStatus == CONTRACT_STATUS.PERIOD_EXPIRED){
-            throw new RuntimeException();
-        }
+    private void updateContract(int newStatus, int contractId){
         insuranceRepository.updateContractStatus(newStatus,contractId);
     }
 
@@ -124,6 +125,13 @@ public class InsuranceService {
                 .map(sc -> new AddProductCollateral(productId, contractId, sc.getId()))
                 .collect(Collectors.toList());
         insuranceRepository.addProductCollateral(pc);
+    }
+    private static List<Integer> getCollateralIds(List<Collateral> collaterals) {
+        List<Integer> collateralIds = new ArrayList<>();
+        for(Collateral collateral : collaterals){
+            collateralIds.add(collateral.getId());
+        }
+        return collateralIds;
     }
 }
 

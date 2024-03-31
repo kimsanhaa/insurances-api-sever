@@ -7,5 +7,10 @@ import lombok.Getter;
 public class UpdateContract {
     private Boolean isUpdate;
     private int status;
-    private int contractId;
+
+    public UpdateContract(Boolean isUpdate, int status, int contractId) {
+        this.isUpdate = isUpdate;
+        this.status = status;
+
+    }
 }

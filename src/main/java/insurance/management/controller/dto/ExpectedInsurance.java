@@ -19,6 +19,12 @@ public class ExpectedInsurance {
         return collaterals;
     }
 
+    public ExpectedInsurance(int productId, int period, List<Integer> collaterals) {
+        this.productId = productId;
+        this.period = period;
+        this.collaterals = collaterals;
+    }
+
     @Override
     public String toString() {
         return "SaveContract{" +
