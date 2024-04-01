@@ -3,7 +3,6 @@ package insurance.management.service;
 import insurance.management.controller.dto.*;
 import insurance.management.repository.dto.Collateral;
 import insurance.management.repository.dto.ContractInfo;
-import org.assertj.core.api.Assert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @SpringBootTest
