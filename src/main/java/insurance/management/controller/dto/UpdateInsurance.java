@@ -1,10 +1,14 @@
 package insurance.management.controller.dto;
 
 import lombok.Getter;
+import lombok.NonNull;
 
 @Getter
 public class UpdateInsurance {
+    @NonNull
     private int productId;
+
+    @NonNull
     private int contractId;
     private UpdateCollateral collateral;
     private UpdatePeriod period;

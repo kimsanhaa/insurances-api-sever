@@ -13,6 +13,7 @@ public class ContractInfo  {
         this.collaterals = collaterals;
     }
 
+
     @Override
     public String toString() {
         return "ContractInfo{" +

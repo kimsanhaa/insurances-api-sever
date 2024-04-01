@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class InsuranceRepositoryImpl implements InsuranceRepository {
@@ -31,6 +32,9 @@ public class InsuranceRepositoryImpl implements InsuranceRepository {
     public ContractInfo findContractInfo(int contractId) {
         Contract contract = insuranceMapper.getContractByContractId(contractId);
         List<Collateral> signCollaterals = insuranceMapper.getSignCollateralsByContractId(contractId);
+        if(contract == null && signCollaterals.size() == 0){
+            return null;
+        }
         return new ContractInfo(contract,signCollaterals);
     }
 

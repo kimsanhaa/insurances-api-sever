@@ -1,5 +1,6 @@
 package insurance.management.service;
 
+import insurance.management.config.exception.BusinessException;
 import insurance.management.controller.dto.*;
 import insurance.management.repository.dto.Collateral;
 import insurance.management.repository.dto.ContractInfo;
@@ -14,15 +15,15 @@ import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
-class InsuranceServiceTest {
+class InsuranceServiceImplTest {
 
     @Autowired
-    InsuranceService insuranceService;
+    InsuranceServiceImpl insuranceServiceImpl;
 
     @Test
     public void sut는_계약을_저장하고_저장된_contractId로_저장된데이터를_검증한다(){
         //Arrange
-        InsuranceService sut = insuranceService;
+        InsuranceServiceImpl sut = insuranceServiceImpl;
         SaveInsurance saveInsurance = setSaveInsurance(2,11,3,4);
         int expectedProductId = saveInsurance.getProductId();
         int expectedPeriod = saveInsurance.getPeriod();
@@ -47,7 +48,7 @@ class InsuranceServiceTest {
     @Transactional
     public void sut는_saveInsurance_의_period값이_제품_계약기간_보다_크면_예외가_발생한다(){
         //Arrange
-        InsuranceService sut = insuranceService;
+        InsuranceServiceImpl sut = insuranceServiceImpl;
         SaveInsurance saveInsurance = setSaveInsurance(1,99,3,4);
         RuntimeException actual = null;
 
@@ -64,9 +65,49 @@ class InsuranceServiceTest {
     }
 
     @Test
+    @Transactional
+    public void sut는_제품의_담보가_아니면_예외가_발생한다(){
+        //Arrange
+        InsuranceServiceImpl sut = insuranceServiceImpl;
+        SaveInsurance saveInsurance = setSaveInsurance(1,3,1,3);
+        RuntimeException actual = null;
+
+        //Act
+        try {
+            sut.saveInsurance(saveInsurance);
+        }catch (RuntimeException e){
+            actual  = e;
+        }
+
+        //Assert
+        Assertions.assertThat(actual).isNotNull();
+        Assertions.assertThat(actual).isInstanceOf(BusinessException.class);
+    }
+
+    @Test
+    @Transactional
+    public void sut는_contractId값으로_조회한_값이_null_이면_예외가_발생한다(){
+        //Arrange
+        InsuranceServiceImpl sut = insuranceServiceImpl;
+        RuntimeException actual = null;
+        int contractId = 99;
+
+        //Act
+        try {
+            sut.findContractInfo(contractId);
+        }catch (RuntimeException e){
+            actual  = e;
+        }
+
+        //Assert
+        Assertions.assertThat(actual).isNotNull();
+        Assertions.assertThat(actual).isInstanceOf(BusinessException.class);
+    }
+
+    @Test
     public void sut_기간만료된_보험은_업데이트_요청시_예외가_발생한다(){
         //Arrange
-        InsuranceService sut = insuranceService;
+        InsuranceServiceImpl sut = insuranceServiceImpl;
         RuntimeException actual = null;
         UpdateInsurance updateInsurance = new UpdateInsurance(1,1,null,null,null);
 
@@ -74,6 +115,7 @@ class InsuranceServiceTest {
         try {
             sut.updateInsurance(updateInsurance);
         }catch (RuntimeException e){
+            e.printStackTrace();
             actual  = e;
         }
 
@@ -85,7 +127,7 @@ class InsuranceServiceTest {
     @Test
     public void sut는_담보를_업데이트한다(){
         //Arrange
-        InsuranceService sut = insuranceService;
+        InsuranceServiceImpl sut = insuranceServiceImpl;
         List<Integer> expectedCollaterals = Arrays.asList(3);
         int expectedPremium = 217105;
         UpdateCollateral uc = new UpdateCollateral(true, expectedCollaterals);
@@ -108,7 +150,7 @@ class InsuranceServiceTest {
     @Test
     public void sut는_period를_업데이트한다(){
         //Arrange
-        InsuranceService sut = insuranceService;
+        InsuranceServiceImpl sut = insuranceServiceImpl;
         float expectedPremium = 19736.8F;
         int expectedPeriod = 1;
         UpdatePeriod up = new UpdatePeriod(true,expectedPeriod);
@@ -130,7 +172,7 @@ class InsuranceServiceTest {
     @Test
     public void sut는_period_업데이트시_상태가_기간만료이면_예외가_발생한다(){
         //Arrange
-        InsuranceService sut = insuranceService;
+        InsuranceServiceImpl sut = insuranceServiceImpl;
         int expectedPeriod = 1;
         UpdatePeriod up = new UpdatePeriod(true,expectedPeriod);
         int contractId = 1;
@@ -149,10 +191,33 @@ class InsuranceServiceTest {
         Assertions.assertThat(actual).isNotNull();
         Assertions.assertThat(actual).isInstanceOf(RuntimeException.class);
     }
+
+    @Test
+    public void sut는_period_업데이트시_period값이_제품_period_보다크면_에외가_발생한다(){
+        //Arrange
+        InsuranceServiceImpl sut = insuranceServiceImpl;
+        int expectedPeriod = 99;
+        UpdatePeriod up = new UpdatePeriod(true,expectedPeriod);
+        int contractId = 3;
+        int productId = 3;
+        RuntimeException actual = null;
+        UpdateInsurance updateInsurance = new UpdateInsurance(productId,contractId,up);
+
+        //act
+        try {
+            sut.updateInsurance(updateInsurance);
+        }catch (RuntimeException e){
+            actual = e;
+        }
+
+        //Assert
+        Assertions.assertThat(actual).isNotNull();
+        Assertions.assertThat(actual).isInstanceOf(RuntimeException.class);
+    }
     @Test
     public void sut는_보험료를_예상한다(){
         //Arrange
-        InsuranceService sut = insuranceService;
+        InsuranceServiceImpl sut = insuranceServiceImpl;
         ExpectedInsurance expectedInsurance = new ExpectedInsurance(2,11, Arrays.asList(3,4));
         float expectedPremium =  648855.25f;
 
