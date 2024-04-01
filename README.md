@@ -110,7 +110,7 @@ URL: GET /insurance/quote
 header 'Content-Type: application/json' \
 {
   "productId": 2,
-  "period" : 3,
+  "period" : 3,
   "collaterials":[
     3,4
   ]
