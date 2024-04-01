@@ -1,14 +1,12 @@
 # API 명세
 
-## 기본 URL : http://localhost:8080 
+### 기본 URL : http://localhost:8080 
 
-end point 
-계약 생성
+## End Point 
+### 계약 생성
 
-- url : /contracts
-- method: post
-
-검사
+- 'POST /insurances'
+  새로운 보험 계약을 저장합니다. 
 
 - 보험에 가입을 한다
 - 요청 기간이 보험 제품의 계약 기간 보다 크면 예외가 발생
