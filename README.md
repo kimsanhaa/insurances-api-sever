@@ -85,6 +85,39 @@ header 'Content-Type: application/json' \
 {
     "result": "기간만료된 보험입니다."
 }
+```
+- 요청한 보험 제품의 담보가 아닐때 Http code 400
+```
+{
+    "result": "해당 제품에 맞는 담보가 아닙니다."
+}
+
+```
+- 요청 기간이 보험 제품의 계약기간보다 클 떄 Http code 400
+```
+{
+    "result": "period 범위를 벗어났습니다."
+}
+```
+
+### 예상 총 보험료 계산
+URL: GET /insurance/quote
+
+보험료 계산
+
+요청 body 
+```
+header 'Content-Type: application/json' \
+{
+  "productId": 2,
+  "period" : 3,
+  "collaterials":[
+    3,4
+  ]
+}
+```
+
+오류 처리
 
 - 요청한 보험 제품의 담보가 아닐때 Http code 400
 ```
@@ -98,6 +131,8 @@ header 'Content-Type: application/json' \
 {
     "result": "period 범위를 벗어났습니다."
 }
+```
+
 
 
 
