@@ -11,6 +11,7 @@ URL: POST /insurances
 
 요청 body 
 ```
+header 'Content-Type: application/json' \
 {
   "productId": 2,
   "period" : 3,
@@ -19,5 +20,17 @@ URL: POST /insurances
   ]
 }
 ```
+오류 처리
+
+- 요청한 보험 제품의 담보가 아닐때 HttpStatus 400 return 
+```
+{
+    "data": "해당 제품에 맞는 담보가 아닙니다."
+}
+
+```
+
+
+
 
 
