@@ -45,7 +45,7 @@ public class InsuranceServiceImpl implements InsuranceService{
 
     @Override
     public ContractInfo findContractInfo(int contractId){
-        return Optional.ofNullable(insuranceRepository.findContractInfo(contractId)).orElseThrow( ()-> new BusinessException("contractId값 오류"));
+        return Optional.ofNullable(insuranceRepository.findContractInfo(contractId)).orElseThrow( ()-> new BusinessException("조회된 결과가 없습니다. 유효한 값을 입력하십시오."));
     }
     @Override
     public void updateInsurance(UpdateInsurance updateInsurance){

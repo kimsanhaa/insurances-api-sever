@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     }
     private static Map<String,String> makeBody(String message){
         Map<String,String> body =  new HashMap<>();
-        body.put("data",message);
+        body.put("result",message);
         return body;
     }
 
