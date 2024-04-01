@@ -101,7 +101,7 @@ header 'Content-Type: application/json' \
 ```
 
 ### 예상 총 보험료 계산
-URL: GET /insurance/quote
+URL: GET /insurance/quote
 
 보험료 계산
 
