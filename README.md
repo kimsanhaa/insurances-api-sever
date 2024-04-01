@@ -62,7 +62,7 @@ URL: PATCH /insurances/{contractId}
 header 'Content-Type: application/json' \
 {
   "productId": 2,
-  "contractId" : 3,
+  "contractId" : 3,
   "collateral" :{
     "isUpdate" : "true",
     collateralIds : [3,4]
