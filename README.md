@@ -10,7 +10,14 @@ URL: POST /insurances
 새로운 보험 계약을 저장합니다.
 
 요청 body 
-  ```{
-  
-  }```
+```
+{
+  "productId": 2,
+  "period" : 3,
+  "collaterals" : [
+    3,4
+  ]
+}
+```
+
 
