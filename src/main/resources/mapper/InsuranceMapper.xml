@@ -14,7 +14,7 @@
        );
     </insert>
     <insert id="addProductCollateral">
-        INSERT INTO product_collaterial
+        INSERT INTO product_collateral
             (product_id, contract_id, collateral_id)
         VALUES(#{productId},
                #{contractId},
@@ -58,7 +58,7 @@
             c2.join_amount as joinAmount,
             c2.base_amount as baseAmount
         from contract c
-                 LEFT join product_collaterial pc on pc.contract_id  = c.id
+                 LEFT join product_collateral pc on pc.contract_id  = c.id
                  LEFT join collateral c2 on c2.id  =pc.collateral_id
         where c.id  = #{contractId}
     </select>
@@ -68,13 +68,13 @@
     </update>
 
     <update id="updateProductCollateral">
-        UPDATE product_collaterial
+        UPDATE product_collateral
         SET is_sign #{isSign}
         WHERE product_id = #{productId} AND contract_id = #{contractId} AND collateral_id = #{collateralId}
     </update>
 
     <delete id="deleteProductCollateralByContractId">
-        DELETE FROM product_collaterial
+        DELETE FROM product_collateral
         WHERE contract_id  = #{contractId};
     </delete>
 

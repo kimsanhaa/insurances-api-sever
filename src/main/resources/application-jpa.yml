@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    #url: jdbc:h2:tcp://localhost/~/jpaTest
+    url: jdbc:h2:tcp://localhost/~/DB/h2/bin/insurance
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 1234
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    ansi:
+      enabled: always
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+logging:
+  level:
+    org.hibernate.type: trace
+
+

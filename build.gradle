@@ -30,11 +30,18 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
-	implementation group: 'org.bgee.log4jdbc-log4j2', name: 'log4jdbc-log4j2-jdbc4.1', version: '1.16'
+	//implementation group: 'org.bgee.log4jdbc-log4j2', name: 'log4jdbc-log4j2-jdbc4.1', version: '1.16'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
 
 	//swagger
 	implementation "io.springfox:springfox-swagger2:2.9.2"
 	implementation "io.springfox:springfox-swagger-ui:2.9.2"
+
+	runtimeOnly 'com.h2database:h2'
+
+	//developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+	//testAndDevelopmentOnly("org.springframework.boot:spring-boot-docker-compose")
 }
 
 tasks.named('bootBuildImage') {
