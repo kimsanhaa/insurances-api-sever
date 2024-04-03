@@ -12,6 +12,6 @@ public class Collateral {
     private float baseAmount;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "product_id")
     private Product product;
 }

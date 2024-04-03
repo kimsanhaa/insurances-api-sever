@@ -11,7 +11,7 @@ public class Contract {
     private int id;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "product_id")
     private Product product;
     private int status;
     private Date startDate;

@@ -4,17 +4,22 @@ import jakarta.persistence.*;
 
 @Entity
 public class ProductCollateral {
-    @Id @GeneratedValue
-    private int id;
+
+    @EmbeddedId
+    private productContractCollateralId id;
+
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "product_id")
+    @MapsId("productId")
     Product product;
 
     @ManyToOne
-    @JoinColumn
+    @MapsId("contractId")
+    @JoinColumn(name = "contract_id")
     Contract contract;
 
     @ManyToOne
-    @JoinColumn
+    @MapsId("collateralId")
+    @JoinColumn(name ="collateral_id")
     Collateral collateral;
 }
