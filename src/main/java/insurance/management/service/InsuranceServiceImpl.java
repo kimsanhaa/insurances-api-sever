@@ -30,7 +30,7 @@ public class InsuranceServiceImpl implements InsuranceService{
     public int saveInsurance(SaveInsurance saveInsurance){
         Product product = insuranceRepository.findProduct(saveInsurance.getProductId());
         if(product.getPeriod()<saveInsurance.getPeriod()){
-            throw new BusinessException("period 범위를 벗어났습니다.");
+            throw new BusinessException("period 범위를 벗어났습니다. ");
         }
 
         List<SignCollateral> signCollaterals = getSignCollaterals(saveInsurance.getCollaterals(),saveInsurance.getProductId());
